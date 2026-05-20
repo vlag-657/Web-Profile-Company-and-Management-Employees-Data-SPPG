@@ -12,7 +12,8 @@ class KaryawanController extends Controller
      */
     public function index()
     {
-        return view('karyawan.index');
+        $karyawans = Karyawan::all();
+        return view('karyawan.index', compact('karyawans'));
     }
 
     /**
@@ -28,7 +29,16 @@ class KaryawanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nik' => 'requierd|unique:karyawans,nik',
+            'nama' => 'required',
+            'tanggal_lahir' => 'nullable|date',
+            'alamat' => 'nullable',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'jabatan' => 'required',
+        ]);
+        Karyawan::create($request->all());
+        return redirect()->route('karyawan.index')->with('succes', 'Karyawan berhasil ditambahkan');
     }
 
     /**

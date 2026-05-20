@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Program MBG - Makan Bergizi Gratis</title>
-    <!-- Bootstrap 5 CSS -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/">
@@ -30,7 +30,7 @@
     </div>
 </nav>
 
-<!-- Konten Halaman Utama (Profil Company) -->
+<!-- konten -->
 <div class="container mt-5">
     <div class="text-center">
         <h1>Selamat Datang di Program Makan Bergizi Gratis (MBG)</h1>
