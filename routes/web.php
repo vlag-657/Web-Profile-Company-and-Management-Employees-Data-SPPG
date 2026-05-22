@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ManajemenKaryawanController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('karyawan', KaryawanController::class);
+    Route::resource('karyawan', ManajemenKaryawanController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

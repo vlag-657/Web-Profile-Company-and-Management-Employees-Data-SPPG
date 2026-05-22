@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use Illuminate\Http\Request;
 
-class KaryawanController extends Controller
+class ManajemenKaryawanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class KaryawanController extends Controller
     public function index()
     {
         $karyawans = Karyawan::all();
-        return view('karyawan.index', compact('karyawans'));
+        return view('admin.karyawan.index', compact('karyawans'));
     }
 
     /**
@@ -38,7 +39,7 @@ class KaryawanController extends Controller
             'jabatan' => 'required',
         ]);
         Karyawan::create($request->all());
-        return redirect()->route('karyawan.index')->with('succes', 'Karyawan berhasil ditambahkan');
+        return redirect()->route('admin.karyawan.index')->with('succes', 'Karyawan berhasil ditambahkan');
     }
 
     /**
@@ -72,7 +73,7 @@ class KaryawanController extends Controller
             'jabatan' => 'required',
         ]);
         $karyawan->update($request->all());
-        return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil diperbarui.');
+        return redirect()->route('admin.karyawan.index')->with('success', 'Karyawan berhasil diperbarui.');
     }
 
     /**
@@ -82,6 +83,6 @@ public function destroy($id)
 {
     $karyawan = Karyawan::findOrFail($id);
     $karyawan->delete();
-    return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil dihapus.');
+    return redirect()->route('admin.karyawan.index')->with('success', 'Karyawan berhasil dihapus.');
 }
 }
