@@ -30,7 +30,7 @@ class KaryawanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nik' => 'requierd|unique:karyawans,nik',
+            'nik' => 'required|unique:karyawans,nik',
             'nama' => 'required',
             'tanggal_lahir' => 'nullable|date',
             'alamat' => 'nullable',
@@ -60,16 +60,28 @@ class KaryawanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Karyawan $karyawan)
+    public function update(Request $request, $id)
     {
-        //
+        $karyawan = Karyawan::findOrFail($id);
+        $request->validate([
+            'nik' => 'required|unique:karyawans,nik,' . $id,
+            'nama' => 'required',
+            'tanggal_lahir' => 'nullable|date',
+            'alamat' => 'nullable',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'jabatan' => 'required',
+        ]);
+        $karyawan->update($request->all());
+        return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Karyawan $karyawan)
-    {
-        //
-    }
+public function destroy($id)
+{
+    $karyawan = Karyawan::findOrFail($id);
+    $karyawan->delete();
+    return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil dihapus.');
+}
 }
