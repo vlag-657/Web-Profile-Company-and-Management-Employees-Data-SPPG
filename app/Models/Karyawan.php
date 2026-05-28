@@ -16,5 +16,6 @@ class Karyawan extends Model
         'alamat',
         'jenis_kelamin',
         'jabatan',
+        'password',
     ];
 }

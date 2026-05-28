@@ -8,26 +8,12 @@ use Illuminate\Http\Request;
 
 class ManajemenKaryawanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $karyawans = Karyawan::all();
-        return view('admin.karyawan.index', compact('karyawans'));
+        return view('admin.index', compact('karyawans'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -37,52 +23,53 @@ class ManajemenKaryawanController extends Controller
             'alamat' => 'nullable',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'jabatan' => 'required',
+            'password' => 'required|min:6|confirmed',
         ]);
-        Karyawan::create($request->all());
-        return redirect()->route('admin.karyawan.index')->with('succes', 'Karyawan berhasil ditambahkan');
+
+        $data = $request->except('password_confirmation');
+        $data['password'] = bcrypt($request->password);
+
+        Karyawan::create($data); // <- PERBAIKAN: pakai $data, bukan $request->all()
+
+        return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Karyawan $karyawan)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Karyawan $karyawan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $karyawan = Karyawan::findOrFail($id);
-        $request->validate([
+
+        $rules = [
             'nik' => 'required|unique:karyawans,nik,' . $id,
             'nama' => 'required',
             'tanggal_lahir' => 'nullable|date',
             'alamat' => 'nullable',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'jabatan' => 'required',
-        ]);
-        $karyawan->update($request->all());
-        return redirect()->route('admin.karyawan.index')->with('success', 'Karyawan berhasil diperbarui.');
+        ];
+
+        if ($request->filled('password')) {
+            $rules['password'] = 'required|min:6|confirmed';
+        }
+
+        $request->validate($rules);
+
+        $data = $request->except('password_confirmation');
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        } else {
+            unset($data['password']);
+        }
+
+        $karyawan->update($data);
+
+        return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-public function destroy($id)
-{
-    $karyawan = Karyawan::findOrFail($id);
-    $karyawan->delete();
-    return redirect()->route('admin.karyawan.index')->with('success', 'Karyawan berhasil dihapus.');
-}
+    public function destroy($id)
+    {
+        $karyawan = Karyawan::findOrFail($id);
+        $karyawan->delete();
+        return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil dihapus.');
+    }
 }
