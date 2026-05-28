@@ -90,17 +90,21 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $index + 1 }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-950">
-                                        {{ $karyawan->nik }}</td>
+                                        {{ $karyawan->nik }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $karyawan->nama }}</td>
+                                        {{ $karyawan->nama }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $karyawan->tanggal_lahir ?? '-' }}</td>
+                                        {{ $karyawan->tanggal_lahir ?? '-' }}
+                                    </td>
                                     <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                                        {{ $karyawan->alamat ?? '-' }}</td>
+                                        {{ $karyawan->alamat ?? '-' }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <span
                                             class="px-2.5 py-1 text-xs font-semibold rounded-full 
-                                {{ $karyawan->jenis_kelamin == 'Laki-laki' ? 'bg-blue-50 text-blue-700' : 'bg-pink-50 text-pink-700' }}">
+                                    {{ $karyawan->jenis_kelamin == 'Laki-laki' ? 'bg-blue-50 text-blue-700' : 'bg-pink-50 text-pink-700' }}">
                                             {{ $karyawan->jenis_kelamin }}
                                         </span>
                                     </td>
@@ -116,6 +120,65 @@
                                     <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
                                         Belum ada data karyawan.
                                     </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Tabel Data Absensi Hari Ini -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Absensi Karyawan Hari Ini</h3>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    No</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nama</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    NIK</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Job</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Keterangan</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @forelse($absensiHariIni as $index => $absen)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $index + 1 }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $absen->karyawan->nama }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $absen->karyawan->nik }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <span
+                                            class="px-2.5 py-1 text-xs font-semibold rounded-full bg-yellow-50 text-yellow-700">
+                                            {{ $absen->job }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $absen->keterangan ?? '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $absen->created_at->format('H:i:s') }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">Belum ada karyawan
+                                        yang absen hari ini.</td>
                                 </tr>
                             @endforelse
                         </tbody>

@@ -18,4 +18,9 @@ class Karyawan extends Model
         'jabatan',
         'password',
     ];
+
+    public function absensis()
+    {
+        return $this->hasMany(Absensi::class);
+    }
 }

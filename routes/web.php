@@ -2,31 +2,32 @@
 
 use App\Http\Controllers\Admin\ManajemenKaryawanController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('halamanUtamaMBG');
 });
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+//route untuk login karyawan
+Route::get('/karyawan/login', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'showLoginForm'])->name('karyawan.login');
+Route::post('/karyawan/login', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'login'])->name('karyawan.login.submit');
+Route::post('/karyawan/logout', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'logout'])->name('karyawan.logout');
+Route::post('/karyawan/absen', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'absen'])->name('karyawan.absen.submit');
+
+Route::get('/karyawan/dashboard', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'dashboard'])
+    ->name('karyawan.dashboard')
+    ->middleware('cek.karyawan'); 
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+    Route::get('/admin/absensi', [App\Http\Controllers\Admin\AbsensiController::class, 'index'])->name('admin.absensi');
+
     Route::resource('karyawan', ManajemenKaryawanController::class);
 });
-
-//Route untuk login karyawan
-Route::get('/login-karyawan', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'showLoginForm'])->name('login.karyawan.form');
-Route::post('/login-karyawan', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'login'])->name('login.karyawan');
-Route::post('/logout-karyawan', [App\Http\Controllers\Karyawan\LoginKaryawanController::class, 'logout'])->name('logout.karyawan');
-
-// Route::get('/karyawan', [ManajemenKaryawanController::class, 'index'])->name('karyawan.index');
-// Route::post('/karyawan', [ManajemenKaryawanController::class, 'store'])->name('karyawan.store');
-// Route::put('/karyawan/{id}', [ManajemenKaryawanController::class, 'update'])->name('karyawan.update');
-// Route::delete('/karyawan/{id}', [ManajemenKaryawanController::class, 'destroy'])->name('karyawan.destroy');
 
 require __DIR__ . '/auth.php';

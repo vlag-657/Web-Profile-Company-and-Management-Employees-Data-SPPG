@@ -24,6 +24,7 @@
                     <button type="submit" class="btn btn-outline-danger">Logout</button>
                 </form>
             @else
+                <a href="{{ route('karyawan.login') }}" class="btn btn-outline-primary me-3">Login Karyawan</a> 
                 <a href="{{ route('login') }}" class="btn btn-outline-success">Login Admin</a>
             @endauth
         </div>
